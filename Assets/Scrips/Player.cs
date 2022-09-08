@@ -12,18 +12,21 @@ public class Player : MonoBehaviour
     public float JumFor = 30;
     private Vector3 laPositionCkeckpoint;
 
-    private bool dobleSalto;
-    private bool grounded;
+    bool puedeSaltar = true;
+    bool muerteactiva = false;
+    public GameObject bala;
+    public GameObject lefbala;
 
-    public Transform GroundCheck;
-    public float checkRadius;
-    public LayerMask whatIsGround;
+    // public Transform GroundCheck;
+    //  public float checkRadius;
+    //  public LayerMask whatIsGround;
 
     private int animacion_quieto = 0;
     private int animacion_caminar = 1;
     private int animacion_correr = 2;
     private int animacion_saltar = 3;
     private int animacion_atacar = 4;
+    private int animacion_muere = 5;
 
 
     void Start()
@@ -32,44 +35,46 @@ public class Player : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
-    private void FixedUpdate()
-    {
-        grounded = Physics2D.OverlapCircle(GroundCheck.position, checkRadius, whatIsGround);
-    }
+   // private void FixedUpdate()
+  //  {
+   //     grounded = Physics2D.OverlapCircle(GroundCheck.position, checkRadius, whatIsGround);
+  //  }
     // Update is called once per frame
 
     void Update()
     {
-        if (grounded)
-            dobleSalto = false;
+        if (muerteactiva==true)
+        {
+            changeAnimation(animacion_muere);
+        }
+        
+        //rb.velocity = new Vector2(0,rb.velocity.y);
+      //  changeAnimation(animacion_quieto);
 
-        rb.velocity = new Vector2(0,rb.velocity.y);
-        changeAnimation(animacion_quieto);
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            rb.velocity = new Vector2(-6,rb.velocity.y);
-            sprite.flipX = true;
-            changeAnimation(animacion_caminar);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey(KeyCode.X))
-        {
-            rb.velocity = new Vector2(-10, rb.velocity.y);
-            sprite.flipX = true;
-            changeAnimation(animacion_correr);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(6, rb.velocity.y);
-            sprite.flipX = false;
-            changeAnimation(animacion_caminar);
-        }
-        if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
-        {
-            rb.velocity = new Vector2(10, rb.velocity.y);
+      //  if (Input.GetKey(KeyCode.LeftArrow))
+      //  {
+      //      rb.velocity = new Vector2(-6,rb.velocity.y);
+       //     sprite.flipX = true;
+       //     changeAnimation(animacion_caminar);
+     //   }
+     //   if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey(KeyCode.X))
+     //   {
+            rb.velocity = new Vector2(11, rb.velocity.y);
             sprite.flipX = false;
             changeAnimation(animacion_correr);
-        }
+        //   }
+        //   if (Input.GetKey(KeyCode.RightArrow))
+        //   {
+        //      rb.velocity = new Vector2(6, rb.velocity.y);
+        //      sprite.flipX = false;
+        //      changeAnimation(animacion_caminar);
+        //  }
+        //  if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
+        //  {
+        //      rb.velocity = new Vector2(10, rb.velocity.y);
+        //      sprite.flipX = false;
+        //      changeAnimation(animacion_correr);
+        //  }
 
         //   if (Input.GetKeyUp(KeyCode.Space))
         //   {
@@ -77,23 +82,27 @@ public class Player : MonoBehaviour
         //     rb.AddForce(Vector2.up * JumFor, ForceMode2D.Impulse);
         //      changeAnimation(animacion_saltar);
         //  }
-
-
-        if (Input.GetKeyDown(KeyCode.Space)&& !dobleSalto && !grounded)
+        if (Input.GetKeyUp(KeyCode.B))
         {
-            rb.velocity = new Vector2(rb.velocity.x,JumFor);
-            dobleSalto = true;
-        }
-         if (Input.GetKeyDown(KeyCode.Space) &&  !grounded)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, JumFor);
-            
+            var balas = sprite.flipX ? lefbala : bala;
+            // var position =transform.position+ new Vector3(3,0,0);
+            var position = new Vector2(transform.position.x, transform.position.y);
+            var rotacion = bala.transform.rotation;
+            Instantiate(balas, position, rotacion);
         }
 
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Space)&& puedeSaltar)
         {
-            changeAnimation(animacion_atacar);
+            rb.AddForce(new Vector2(0,JumFor),ForceMode2D.Impulse);
+            changeAnimation(animacion_saltar);
+            puedeSaltar = false;
         }
+        
+
+       // if (Input.GetKey(KeyCode.Z))
+       // {
+        //    changeAnimation(animacion_atacar);
+       // }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -107,6 +116,13 @@ public class Player : MonoBehaviour
         {
             Debug.Log("B");
             transform.position = laPositionCkeckpoint;
+        }
+
+        if (collision.gameObject.tag=="z")
+        {
+            Debug.Log("muerto");
+            changeAnimation(animacion_muere);
+            muerteactiva = true;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -129,6 +145,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        puedeSaltar = true;
+    }
     void changeAnimation(int animation)
     {
         animator.SetInteger("estado",animation);

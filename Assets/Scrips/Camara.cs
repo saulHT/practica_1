@@ -15,7 +15,7 @@ public class Camara : MonoBehaviour
     void Update()
     {
         var x = player.position.x;
-        var y = player.position.y + 3;
+        var y = player.position.y + 1;
 
         transform.position = new Vector3(x, y, transform.position.z);
     }

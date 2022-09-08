@@ -2343,26 +2343,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1945867947676321530, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 1945867947676321530, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720207473475740184, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-      propertyPath: GroundCheck
+    - target: {fileID: 7720207473475740185, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
+      propertyPath: m_Material
       value: 
-      objectReference: {fileID: 1841396598}
-    - target: {fileID: 7720207473475740184, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-      propertyPath: checkRadius
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720207473475740184, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-      propertyPath: whatIsGround.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6200000, guid: dc202c4232835c54da46d2be1a5a71d2, type: 2}
     - target: {fileID: 7720207473475740187, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -4442,11 +4426,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1841396598 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2935704123951615605, guid: 0850e1f7df3f4bb44a8cc934d43629c2, type: 3}
-  m_PrefabInstance: {fileID: 85008626}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1925240380
 GameObject:
   m_ObjectHideFlags: 0
