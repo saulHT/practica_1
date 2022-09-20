@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Score score;
     // Start is called before the first frame update
     Rigidbody2D rb;
     SpriteRenderer sprite;
@@ -16,6 +18,10 @@ public class Player : MonoBehaviour
     bool muerteactiva = false;
     public GameObject bala;
     public GameObject lefbala;
+
+    public AudioClip recogerClips;
+    public AudioClip saltarClips;
+    private AudioSource audioSource;
 
     // public Transform GroundCheck;
     //  public float checkRadius;
@@ -34,6 +40,9 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+
+        score = FindObjectOfType<Score>();
+        audioSource = GetComponent<AudioSource>();
     }
    // private void FixedUpdate()
   //  {
@@ -43,32 +52,35 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (muerteactiva==true)
-        {
-            changeAnimation(animacion_muere);
-        }
-        
-        //rb.velocity = new Vector2(0,rb.velocity.y);
-      //  changeAnimation(animacion_quieto);
-
-      //  if (Input.GetKey(KeyCode.LeftArrow))
-      //  {
-      //      rb.velocity = new Vector2(-6,rb.velocity.y);
-       //     sprite.flipX = true;
-       //     changeAnimation(animacion_caminar);
-     //   }
-     //   if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey(KeyCode.X))
-     //   {
-            rb.velocity = new Vector2(11, rb.velocity.y);
-            sprite.flipX = false;
-            changeAnimation(animacion_correr);
+        // if (muerteactiva==false)
+        //  {
+        //   rb.velocity = new Vector2(11, rb.velocity.y);
+        // sprite.flipX = false;
+        //  changeAnimation(animacion_correr);
         //   }
-        //   if (Input.GetKey(KeyCode.RightArrow))
+        //   changeAnimation(animacion_muere);
+        //rb.velocity = new Vector2(0,rb.velocity.y);
+        //  changeAnimation(animacion_quieto);
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        changeAnimation(animacion_quieto);
+
+
+          if (Input.GetKey(KeyCode.LeftArrow))
+          {
+              rb.velocity = new Vector2(-6,rb.velocity.y);
+             sprite.flipX = true;
+             changeAnimation(animacion_correr);
+           }
+          // if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey(KeyCode.X))
         //   {
-        //      rb.velocity = new Vector2(6, rb.velocity.y);
-        //      sprite.flipX = false;
-        //      changeAnimation(animacion_caminar);
-        //  }
+
+        //   }
+           if (Input.GetKey(KeyCode.RightArrow))
+           {
+              rb.velocity = new Vector2(6, rb.velocity.y);
+              sprite.flipX = false;
+             changeAnimation(animacion_correr);
+          }
         //  if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
         //  {
         //      rb.velocity = new Vector2(10, rb.velocity.y);
@@ -76,11 +88,11 @@ public class Player : MonoBehaviour
         //      changeAnimation(animacion_correr);
         //  }
 
-        //   if (Input.GetKeyUp(KeyCode.Space))
-        //   {
-        // rb.AddForce(new Vector2(0, jumFor), ForceMode2D.Impulse);
+       //    if (Input.GetKeyUp(KeyCode.Space))
+       //    {
+       //  rb.AddForce(new Vector2(0, jumFor), ForceMode2D.Impulse);
         //     rb.AddForce(Vector2.up * JumFor, ForceMode2D.Impulse);
-        //      changeAnimation(animacion_saltar);
+       //       changeAnimation(animacion_saltar);
         //  }
         if (Input.GetKeyUp(KeyCode.B))
         {
@@ -96,12 +108,14 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector2(0,JumFor),ForceMode2D.Impulse);
             changeAnimation(animacion_saltar);
             puedeSaltar = false;
+
+            audioSource.PlayOneShot(saltarClips);
         }
         
 
-       // if (Input.GetKey(KeyCode.Z))
-       // {
-        //    changeAnimation(animacion_atacar);
+      //  if (Input.GetKey(KeyCode.Z))
+      //  {
+       //     changeAnimation(animacion_muere);
        // }
     }
 
@@ -122,26 +136,52 @@ public class Player : MonoBehaviour
         {
             Debug.Log("muerto");
             changeAnimation(animacion_muere);
+           // muerte();
             muerteactiva = true;
         }
     }
+
+    private void muerte()
+    {
+        changeAnimation(animacion_muere);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (activa==true)
-        {
-            if (collision.gameObject.tag == "1")
+      //  if (activa==true)
+      //  {
+            if (collision.gameObject.tag == "A")
             {
-                Debug.Log("aparece 1");
-                laPositionCkeckpoint = transform.position;
-            }
+                Debug.Log("moneda a");
+            score.moneda1();
+            score.SaveGame();
+            Destroy(collision.gameObject);
+            audioSource.PlayOneShot(recogerClips);
+            // laPositionCkeckpoint = transform.position;
         }
+      //  }
         
-        if (collision.gameObject.tag=="2")
+        if (collision.gameObject.tag=="B")
         {
-            Debug.Log("aparece 2");
-            laPositionCkeckpoint = transform.position;
-            activa = false;
-            Debug.Log("desactiva 1");
+            Debug.Log("moneda b");
+            score.moneda2();
+            score.SaveGame();
+            Destroy(collision.gameObject);
+            audioSource.PlayOneShot(recogerClips);
+            // laPositionCkeckpoint = transform.position;
+            // activa = false;
+            //  Debug.Log("desactiva 1");
+        }
+        if (collision.gameObject.tag == "C")
+        {
+            Debug.Log("moneda c");
+            score.moneda3();
+            score.SaveGame();
+            Destroy(collision.gameObject);
+            audioSource.PlayOneShot(recogerClips);
+            // laPositionCkeckpoint = transform.position;
+            // activa = false;
+            //  Debug.Log("desactiva 1");
         }
     }
 

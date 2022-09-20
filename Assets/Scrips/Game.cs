@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +19,15 @@ public class Game : MonoBehaviour
     {
         return this.bala;
     }
-    public void PerderVida(int balas)
+    public void PerderVida()
     {
-        this.bala -= balas;
+        this.bala -= 1;
         balaText.text = "bala: " + bala;
+        PrintLifes();
     }
-   
+
+    private void PrintLifes()
+    {
+        balaText.text = "vidas: " + bala;
+    }
 }

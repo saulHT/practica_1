@@ -6,13 +6,14 @@ public class Bala : MonoBehaviour
 {
     private Game Game;
     Rigidbody2D rb;
-
+    private Score score;
     public int velocidad = 30;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(this.gameObject, 5);
+        score = FindObjectOfType<Score>();
     }
 
     // Update is called once per frame
@@ -27,8 +28,10 @@ public class Bala : MonoBehaviour
         {
             Debug.Log("muerte zombi");
             Destroy(collision.gameObject);
+            score.PlusScorte(10);
+            score.SaveGame();
             Destroy(this.gameObject);
-            Game.PerderVida(1);
+          //  Game.PerderVida(1);
         }
     }
 }

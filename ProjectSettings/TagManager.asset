@@ -7,6 +7,11 @@ TagManager:
   - 1
   - 2
   - z
+  - A
+  - B
+  - C
+  - q
+  - w
   layers:
   - Default
   - TransparentFX
