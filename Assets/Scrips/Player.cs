@@ -23,9 +23,6 @@ public class Player : MonoBehaviour
     public AudioClip saltarClips;
     private AudioSource audioSource;
 
-    // public Transform GroundCheck;
-    //  public float checkRadius;
-    //  public LayerMask whatIsGround;
 
     private int animacion_quieto = 0;
     private int animacion_caminar = 1;
@@ -44,12 +41,7 @@ public class Player : MonoBehaviour
         score = FindObjectOfType<Score>();
         audioSource = GetComponent<AudioSource>();
     }
-   // private void FixedUpdate()
-  //  {
-   //     grounded = Physics2D.OverlapCircle(GroundCheck.position, checkRadius, whatIsGround);
-  //  }
-    // Update is called once per frame
-
+   
     void Update()
     {
         // if (muerteactiva==false)
@@ -70,6 +62,7 @@ public class Player : MonoBehaviour
               rb.velocity = new Vector2(-6,rb.velocity.y);
              sprite.flipX = true;
              changeAnimation(animacion_correr);
+
            }
           // if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey(KeyCode.X))
         //   {
@@ -80,6 +73,8 @@ public class Player : MonoBehaviour
               rb.velocity = new Vector2(6, rb.velocity.y);
               sprite.flipX = false;
              changeAnimation(animacion_correr);
+            score.SaveGame();
+           // score.posicion();
           }
         //  if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X))
         //  {

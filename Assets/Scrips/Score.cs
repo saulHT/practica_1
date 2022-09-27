@@ -12,6 +12,12 @@ public class Score : MonoBehaviour
     public Text mon3Text;
     public Text puntajeText;
 
+    public Transform Player;
+
+    float posx;
+    float posy;
+    float posz;
+
     private int mon1;
     private int mon2;
     private int mon3;
@@ -25,6 +31,7 @@ public class Score : MonoBehaviour
      puntaje=0;
         PrintLifes1();
         LoadGame();
+       // posicion();
     }
 
    
@@ -48,6 +55,9 @@ public class Score : MonoBehaviour
         datas.moned2 = mon2;
         datas.moned3 = mon3;
         datas.puntaje = puntaje;
+       datas.posicionX = Player.position.x;
+        datas.posicionY = Player.position.y;
+        datas.posicionZ = Player.position.z;
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file,datas);
         file.Close();
@@ -72,12 +82,25 @@ public class Score : MonoBehaviour
         mon1 = datas.moned1;
         mon2 = datas.moned2;
         mon3 = datas.moned3;
+        posx = datas.posicionX;
+        posy = datas.posicionY;
+        posz = datas.posicionZ;
         puntaje = datas.puntaje;
         PrintLifes1();
         PrintLifesmon2();
         PrintLifesmon3();
         PrintInScreenScore();
+        posicion();
     }
+
+    public void posicion()
+    {
+       // transform.position = new Vector3(posx,posy,posz);
+        Debug.Log("posx; "+posx);
+
+        Player.position = new Vector3(posx,posy,posz);
+    }
+
     public int GetPuntaje()
     {
         return this.puntaje;

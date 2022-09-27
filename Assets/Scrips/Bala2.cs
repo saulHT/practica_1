@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bala : MonoBehaviour
+public class Bala2 : MonoBehaviour
 {
-    private Game Game;
     Rigidbody2D rb;
     private Score score;
     public int velocidad = 10;
-    int vida=2;
-    //int contador2=0;
+    int vida = 1;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(this.gameObject, 2);
+        Destroy(this.gameObject, 5);
         score = FindObjectOfType<Score>();
     }
 
@@ -23,24 +21,19 @@ public class Bala : MonoBehaviour
     {
         rb.velocity = new Vector2(velocidad, 0);
     }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "A")
+        if (collision.gameObject.tag=="B")
         {
-            //     Destroy(this.gameObject);
-            //    contador2++;
-           // Debug.Log("...collision bala1 ");
-            Debug.Log("...collision bala1 "+vida);
+           
             vida--;
-            if (vida <=0)
+            Debug.Log("...collision bala2 " + vida);
+            if (vida<0)
             {
-                Destroy(collision.gameObject);
                 Destroy(this.gameObject);
+                Destroy(gameObject);
             }
-
+           
         }
-     }
-       
+    }
 }
