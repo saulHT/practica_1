@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sprite;
     Animator animator;
+
     bool activa = true;
     public float JumFor = 30;
     private Vector3 laPositionCkeckpoint;

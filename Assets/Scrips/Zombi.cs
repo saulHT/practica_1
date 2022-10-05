@@ -30,7 +30,8 @@ public class Zombi : MonoBehaviour
       //  }
         
            
-        //    rb.velocity = new Vector2(velocidad, 0);
+            rb.velocity = new Vector2(-velocidad, 0);
+        spriteRenderer.flipX = true;
         
     }
     private void OnCollisionEnter2D(Collision2D collision)
